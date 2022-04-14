@@ -5,7 +5,7 @@
     <title>helloWorld</title>
 </head>
 <body>
-<div id="root">
+<div id="app">
     <h1>hello, {{name}}</h1>
 </div>
 <!--
@@ -34,7 +34,7 @@ async 属性，表示异步解析脚本，即表示当前脚本不必等待其�
 <script>
     // 创建vue实例
     new Vue({
-        el: '#root',    // 提供一个在页面上已存在的 DOM 元素作为 Vue 实例的挂载目标
+        el: '#app',    // 提供一个在页面上已存在的 DOM 元素作为 Vue 实例的挂载目标
         data: {         // 数据对象
             name: "world"
         }
