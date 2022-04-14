@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>模板语法</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <!-- 更新元素的 textContent，如果要更新部分的 textContent，需要使用 {{ Mustache }} 插值 -->
+    <h2>插值text：</h2>
+    <h3>hello {{name}}</h3>
+    <h3 v-text="textName"></h3>
+    <hr/>
+
+    <h2>插值html：</h2>
+    <div v-html="htmlName"></div>
+    <hr/>
+
+    <!-- 动态地绑定一个或多个 attribute，或一个组件 prop 到表达式   v-bind:xxx 简写为 :xxx -->
+    <h2>单向绑定：</h2>
+    <a :href="url">点击跳转</a>
+    <hr/>
+
+    <!-- 在表单控件或者组件上创建双向绑定   v-model:value 简写为 v-model -->
+    <h2>双向绑定：</h2>
+    <label for="one">输入1：</label><input type="text" v-model="value" id="one"/>
+    <label for="two">输入2：</label><input type="text" v-model="value" id="two"/>
+    <hr/>
+
+    <!-- 绑定事件监听器，事件类型由参数指定，表达式可以是一个方法的名字或一个内联语句 -->
+    <h2>事件绑定：</h2>
+    <h3 v-on:click="alertMsg">点击一下弹个窗</h3>
+    <hr/>
+
+    <!-- 根据表达式之真假值，切换元素的 display CSS property，通常使用 true(1) | false(0) 来进行显示隐藏判断 -->
+    <h2>显示隐藏：</h2>
+    <h3 v-show="display">根据真假值控制css display</h3>
+    <hr/>
+
+    <!-- 根据表达式有条件地渲染元素，在切换时元素及它的数据绑定 / 组件被销毁并重建 -->
+    <h2>if判断：</h2>
+    <h3 v-if="age >= 18 && age <= 40">青年</h3>
+    <h3 v-else-if="age >= 41 && age <= 65">中年</h3>
+    <h3 v-else>老年</h3>
+    <hr/>
+
+    <!-- 基于源数据多次渲染元素或模板块，必须使用特定语法 alias in expression，为当前遍历的元素提供别名 -->
+    <h2>for循环：</h2>
+    <table border="1">
+        <tr>
+            <th>键</th>
+            <th>名字</th>
+            <th>年龄</th>
+            <th>地址</th>
+        </tr>
+        <tr v-for="(user, key) in userList" :key="key">
+            <td>{{key}}</td>
+            <td>{{user.name}}</td>
+            <td>{{user.age}}</td>
+            <td>{{user.address}}</td>
+        </tr>
+    </table>
+    <hr/>
+
+    <!-- 跳过这个元素和它的子元素的编译过程，用来显示原始标签 -->
+    <h2>忽略语法：</h2>
+    <h3 v-pre>{{该元素不会被编译}}</h3>
+    <hr/>
+
+    <!-- 这个指令保持在元素上直到关联实例结束编译 -->
+    <h2>实例结束编译触发：</h2>
+    <h3 v-cloak>{{showName}}</h3>
+    <hr/>
+
+    <!-- 只渲染元素和组件一次，随后的重新渲染，元素/组件及其所有的子节点将被视为静态内容并跳过 -->
+    <h2>只渲染一次：</h2>
+    <h3 v-once>{{oneName}}</h3>
+    <hr/>
+
+    <!-- 可放置在函数参数位置的 JavaScript 表达式 (在支持的环境下可使用解构) -->
+    <!--<h2>插槽：</h2>
+    <h3 v-slot>需在vue-cli中才可结构</h3>
+    <hr/>-->
+</div>
+<script src="../../static/js/vue.js"></script>
+<script>
+    // 创建vue实例
+    new Vue({
+        el: '#app',    // 提供一个在页面上已存在的 DOM 元素作为 Vue 实例的挂载目标
+        data: {         // 数据对象
+            name: "jack",
+            textName: "hello jerry",
+            htmlName: "<span>嵌入html</span>",
+            url: "https://www.baidu.com",
+            value: "",
+            display: true,
+            age: 24,
+            userList: [
+                {"name": "tom", "age": 18, "address": "北京"},
+                {"name": "alan", "age": 35, "address": "上海"},
+                {"name": "jason", "age": 63, "address": "广州"}
+            ],
+            showName: "vue实例编译结束才会显示",
+            oneName: "变量更新也不会被重新渲染"
+        },
+        methods: {
+            alertMsg() {
+                alert("事件绑定自定义方法弹窗")
+            }
+        }
+    })
+</script>
+</body>
+</html>
