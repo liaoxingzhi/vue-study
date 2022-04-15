@@ -32,9 +32,9 @@
     <label for="two">输入2：</label><input type="text" v-model="value" id="two"/>
     <hr/>
 
-    <!-- 绑定事件监听器，事件类型由参数指定，表达式可以是一个方法的名字或一个内联语句 -->
+    <!-- 绑定事件监听器，事件类型由参数指定，表达式可以是一个方法的名字或一个内联语句   v-on:xxx 简写为 @xxx  -->
     <h2>事件绑定：</h2>
-    <h3 v-on:click="alertMsg">点击一下弹个窗</h3>
+    <h3 @click="alertMsg">点击一下弹个窗</h3>
     <hr/>
 
     <!-- 根据表达式之真假值，切换元素的 display CSS property，通常使用 true(1) | false(0) 来进行显示隐藏判断 -->
