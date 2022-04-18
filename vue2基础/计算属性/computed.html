@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>计算属性</title>
+</head>
+<body>
+<div id="app">
+    性：<input id="firstname" v-model="firstName"><br/><br/>
+    名：<input id="lastname" v-model="lastName"><br/><br/>
+    全名<input id="fullName" v-model="fullName"><br/><br/>
+    全名2 <span>{{fullName2}}</span>
+</div>
+<script src="../../static/js/vue.js"></script>
+<script>
+    // 创建vue实例
+    new Vue({
+        el: '#app',    // 提供一个在页面上已存在的 DOM 元素作为 Vue 实例的挂载目标
+        data: {         // 数据对象
+            firstName: "张",
+            lastName: "三",
+        },
+        computed: {    // 计算属性
+            // 计算属性根据依赖变量结果缓存, 依赖变化重新计算结果存入缓存, 比普通方法性能更高
+
+            // 完整写法:
+            fullName: {
+                // 当修改了对象的当前属性值时自动调用, 监视当前属性值的变化, 修改相关的属性 (setter)
+                set(newVal) {
+                    [this.firstName, this.lastName] = newVal.split('-');
+                },
+                // 当读取对象此属性值时自动调用, 将函数返回的值作为属性值 （getter）
+                get() {
+                    return this.firstName + '-' + this.lastName;
+                }
+            },
+
+            // 简写方式（只定义了getter，并未实现setter 如果使用该属性进行重新赋值则会报错）：
+            fullName2() {
+                return this.firstName + '-' + this.lastName;
+            }
+        }
+    })
+</script>
+</body>
+</html>
