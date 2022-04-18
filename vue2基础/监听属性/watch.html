@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>监听属性</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <span v-cloak>今天天气：{{weatherInfo}}</span><br/><br/>
+    <span v-cloak v-show="remind">友情提醒：{{remind}}</span><br/><br/>
+    <button @click="changeWeather">点击一下切换天气</button>
+    <hr/>
+
+    <span v-cloak>深度监听：{{nesting.a.b.c}}</span><br/><br/>
+    <button @click="addNesting">点击一下对象属性自增</button>
+    <hr/>
+
+    <span v-cloak>简写模式：{{number}}</span><br/><br/>
+    <button @click="addNumber">点击一下属性自增</button>
+    <hr/>
+</div>
+<script src="../../static/js/vue.js"></script>
+<script>
+    // 创建vue实例
+    new Vue({
+        el: '#app',    // 提供一个在页面上已存在的 DOM 元素作为 Vue 实例的挂载目标
+        data: {         // 数据对象
+            weather: true,
+            remind: false,
+            nesting: {
+                a: {
+                    b: {
+                        c: 100
+                    }
+                }
+            },
+            number: 0
+        },
+        methods: {
+            changeWeather() {
+                this.weather = !this.weather
+            },
+            addNesting() {
+                this.nesting.a.b.c++
+            },
+            addNumber() {
+                this.number++
+            }
+        },
+        computed: {    // 计算属性
+            weatherInfo() {
+                return this.weather ? '炎热' : '寒冷'
+            },
+            // 将对象重复赋值（想改变量指向的底部指针）,则在监听属性则才可以拿到新值和旧值
+            preserve() {
+                return JSON.parse(JSON.stringify(this.nesting))
+            }
+        },
+        watch: {    // 监听属性
+            // 完整写法:
+            weather: {
+                // immediate为true则会在初始化完成之后立即执行一次 默认为false
+                immediate: true,
+                // handler函数默认传递新值和旧值 值不存在则输出undefined
+                handler(newVal, oldVal) {
+                    console.log("新值：", newVal, "旧值：", oldVal)
+                    this.remind = newVal ? '请注意防晒' : '请多穿衣服'
+                }
+            },
+            preserve: {
+                // 深度监听 deep一般用于监听对象或数组的值是否发生变化 默认为false
+                deep: true,
+                // 在变更 (不是替换) 对象或数组时，如果只是修改对象中属性的话不会更改变量底部指针，所有Vue不会保留变更之前值的副本
+                handler(newVal, oldVal) {
+                    console.log("新值：", newVal.a.b.c, "旧值：", oldVal.a.b.c)
+                }
+            },
+
+            // 简写模式（默认调用handler函数，如果需要初始调用一次或深度监听，应改为配置模式完整写法）：
+            number(newVal, oldVal) {
+                console.log("新值：", newVal, "旧值：", oldVal)
+            }
+        }
+    })
+</script>
+</body>
+</html>
