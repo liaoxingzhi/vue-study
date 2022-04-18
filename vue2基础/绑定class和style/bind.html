@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>绑定class和style</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/general.css">
+</head>
+<body>
+<div id="app">
+    <h2>绑定class：</h2>
+    <!-- 绑定class 字符串写法 使用场景：类名不确定，需动态指定 -->
+    <div class="basic font border" :class="className">绑定class 字符串</div><br/>
+    <hr/>
+
+    <!-- 绑定class 数组写法 使用场景：类名不确定，个数也不确定 -->
+    <div :class="classNameArr" @click="changeImg">绑定class 数组</div><br/>
+    <button class="button">上图点击更换背景图片👆👆👆</button>
+    <hr/>
+
+    <!-- 绑定class 对象写法 使用场景：类名确定，个数确定，但需动态指定 -->
+    <div :class="classNameObj">绑定class 对象</div><br/>
+    <hr/>
+
+    <h2>绑定style：</h2>
+    <div class="font" :style="styleObj">绑定style 对象</div>
+    <hr/>
+
+    <div class="font" :style="styleArr">绑定style 数组</div>
+    <hr/>
+</div>
+<script src="../../static/js/vue.js"></script>
+<script>
+    // 创建vue实例
+    new Vue({
+        el: '#app',    // 提供一个在页面上已存在的 DOM 元素作为 Vue 实例的挂载目标
+        data: {         // 数据对象
+            className: 'image3',
+            classNameArr: ['basic', 'font', 'border', 'width', 'image1'],
+            classNameObj: {
+                basic: true,
+                font: true,
+                border: true,
+                width: true,
+                image2: true
+            },
+            images: ['image1', 'image2', 'image3'],
+            styleObj: {
+                width: "200px",
+                height: "200px",
+                backgroundColor: "skyblue",
+                backgroundSize: "cover"
+            },
+            styleArr: [
+                {
+                    width: "200px",
+                    height: "200px",
+                    backgroundColor: "skyblue",
+                    backgroundSize: "cover"
+                },
+                {
+                    borderStyle: "solid",
+                    borderRadius: "20px",
+                    borderColor: "aqua red chartreuse orange"
+                }
+            ]
+        },
+        methods: {
+            changeImg() {
+                // 随机从images中取出一个元素
+                let newImg = this.images[Math.floor(Math.random() * 3)]
+
+                // 弹出数组最后一个元素
+                let oldImg = this.classNameArr[this.classNameArr.length - 1]
+
+                // 获取class数组中最后一个元素（图片class）
+                if (newImg === oldImg) {
+                    //递归重新执行
+                    this.changeImg()
+                }
+
+                // 删除数组最后一个元素
+                this.classNameArr.pop()
+
+                // 向数组尾部追加一个元素
+                this.classNameArr.push(newImg)
+            }
+        }
+    })
+</script>
+</body>
+</html>

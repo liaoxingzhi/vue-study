@@ -1,0 +1,48 @@
+.basic {
+    width: 200px;
+    height: 200px;
+    background-color: skyblue;
+    background-size: cover;
+}
+
+.font {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 200px;
+}
+
+.border {
+    border-style: solid;
+    border-radius: 20px;
+    border-color: aqua red chartreuse orange;
+}
+
+.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.width {
+    width: 400px;
+    line-height: 100px;
+}
+
+.image1 {
+    background-image: url("../../static/image/image1.jpg");
+}
+
+.image2 {
+    background-image: url("../../static/image/image2.jpg");
+}
+
+.image3 {
+    background-image: url("../../static/image/image3.jpg");
+}
