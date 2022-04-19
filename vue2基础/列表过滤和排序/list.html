@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>列表过滤和排序</title>
+</head>
+<body>
+<div id="app">
+    <h2>列表过滤：</h2>
+    <input type="text" placeholder="请输入名字" v-model="keyWord">
+    <button @click="sortType = 1">年龄升序</button>
+    <button @click="sortType = -1">年龄降序</button>
+    <button @click="sortType = 0">原顺序</button>
+    <ul>
+        <h3>计算属性写法：</h3>
+        <li v-for="user in cUser" :key="user.id">
+            {{user.name}} - {{user.age}} - {{user.gender}}
+        </li>
+
+        <h3>监听属性写法：</h3>
+        <li v-for="user in fUser" :key="user.id">
+            {{user.name}} - {{user.age}} - {{user.gender}}
+        </li>
+    </ul>
+    <hr/>
+</div>
+<script src="../../static/js/vue.js"></script>
+<script>
+    // 创建vue实例
+    new Vue({
+        el: '#app',    // 提供一个在页面上已存在的 DOM 元素作为 Vue 实例的挂载目标
+        data: {         // 数据对象
+            keyWord: '',    // 文本输入
+            sortType: 0,    // 排序类型 0：原序 1：升序 -1：降序
+            userList: [    // 用户列表
+                {id: "001", name: "马冬梅", age: 35, gender: "女"},
+                {id: "002", name: "周冬雨", age: 26, gender: "女"},
+                {id: "003", name: "周杰伦", age: 31, gender: "男"},
+                {id: "004", name: "温兆伦", age: 69, gender: "男"}
+            ],
+            fUser: []
+        },
+        computed: {    // 计算属性
+            cUser() {
+                // 过滤姓名不含有指定输入字符的数据
+                let userList = this.userList.filter((user) => {
+                    return user.name.indexOf(this.keyWord) !== -1
+                })
+
+                // 过滤完后根据排序类型进行排序
+                if (this.sortType) {
+                    userList.sort((a, b) => {
+                        return this.sortType === 1 ? b.age - a.age : a.age - b.age
+                    })
+                }
+
+                return userList
+            }
+        },
+        watch: {    // 监听属性
+            keyWord: {
+                immediate: true,
+                handler(newVal) {
+                    // 过滤姓名不含有指定输入字符的数据
+                    this.fUser = this.userList.filter((user) => {
+                        return user.name.indexOf(newVal) !== -1
+                    })
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>
