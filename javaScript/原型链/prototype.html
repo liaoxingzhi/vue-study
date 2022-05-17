@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>原型链</title>
+</head>
+<body>
+<script>
+    // 定义一个构造函数
+    function Demo() {
+        this.a = 1
+        this.b = 2
+    }
+
+    // 创建一个Demo的实例对象
+    const obj = new Demo()
+
+    console.log('构造函数的显式原型属性：', Demo.prototype)
+
+    console.log('实例对象的隐式原型属性：', obj.__proto__)
+
+    /**
+     * 原型链
+     */
+    console.log('因为obj的构造函数是Demo()，所以：', obj.__proto__ === Demo.prototype)
+
+    console.log('又因为Demo.prototype是一个普通的对象，它的构造函数是Object，所以：',Demo.prototype.__proto__ === Object.prototype)
+
+    /**
+     * toString()在原型链中的查找顺序
+     * 1.浏览器首先检查obj对象里面是有可以使用的toString()方法
+     * 2.如果没有可以使用的toString()方法，浏览器会查看obj对象的原型对象（即test构造函数的prototype属性），是否有可用的toString()方法
+     * 3.如果也没有，浏览器会继续往上寻找，在本例中就为obj.proto.proto（即Object的prototype属性）
+     * 4.我们在Object的prototype属性里面找到了我们要使用的toString()方法，于是我们就会看到这个方法被调用的结果
+     */
+    console.log('原型对象方法：', obj.toString())
+
+    /**
+     * Object.create(参数) 可以指定的参数（原型对象）创建一个新的对象
+     * Object.create(null)的参数是可以为null的
+     */
+    const obj2 = Object.create(Demo)
+
+    console.log('obj2.prototype指向的原型对象是Demo()，所以：', obj2.prototype === Demo.prototype)
+
+    /**
+     * 每个实例对象都从原型中继承了一个constructor属性，该属性指向了用于构造此实例对象的构造函数
+     */
+    console.log('因为obj的构造函数是Demo()，所以：', obj.constructor === obj.constructor)
+
+    console.log('因为obj2继承自Demo()，obj2的构造函数等于Demo()本身，所以：', obj2.__proto__ === obj.constructor)
+
+    /**
+     * 原型的增删改查
+     */
+    // 查
+    console.log('原型链上的属性值为：', obj.a) // 通过__proto__属性递归查询原型链上的属性 完整写法：obj.__proto__.a
+
+    // 改、增
+    Demo.prototype.c = 3
+
+    // 删
+    delete Demo.prototype.c
+</script>
+</body>
+</html>
