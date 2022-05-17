@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>非单文件组件</title>
+</head>
+<body>
+<div id="app">
+    <app></app>
+</div>
+<div id="app2">
+    <h2>全局注册：</h2>
+    <hello></hello>
+</div>
+<script src="../../static/js/vue.js"></script>
+<script>
+    // 组件实例对象可以访问到Vue原型上的属性和方法
+    Vue.prototype.x = 99
+
+    // 创建school组件
+    const school = Vue.extend({
+        name: 'keySchool',  // 修改组件在开发者工具中的名字
+        template: `
+            <div>
+              <h2>学校名称：{{schoolName}}</h2>
+              <h2>学校地址：{{address}}</h2>
+              <button @click="showName">点击提示学校名称</button>
+              <button @click="showX">点击输出x</button>
+            </div>
+        `,
+        data() {
+            return {
+                schoolName: '北京大学',
+                address: '北京市海淀区颐和园路5号'
+            }
+        },
+        methods: {
+            showName() {
+                alert(this.schoolName)
+            },
+            showX() {
+                // 沿着隐式原型链找
+                alert(this.x)
+            }
+        }
+    })
+
+    // 创建subject组件（嵌套）
+    const subject = Vue.extend({
+        template: `
+            <div>
+              <h2>科目：</h2>
+              <ul v-for="(v, k) of subject" :key="k">
+                <li>{{v}}</li>
+              </ul>
+            </div>
+        `,
+        data() {
+            return {
+                subject: ['语文', '数学', '英语']
+            }
+        }
+    })
+
+    // 创建student组件
+    const student = Vue.extend({
+        template: `
+            <div>
+              <h2>学生姓名：{{studentName}}</h2>
+              <h2>学生年龄：{{age}}</h2>
+              <subject></subject>
+            </div>
+        `,
+        data() {
+            return {
+                studentName: '张三',
+                age: 18
+            }
+        },
+        components: {   // 嵌套组件
+            subject
+        }
+    })
+
+    // 创建hello组件
+    const hello = Vue.extend({
+        template: `
+            <div>
+              <h2>hello {{helloKey}}</h2>
+            </div>
+        `,
+        data() {
+            return {
+                helloKey: 'world'
+            }
+        }
+    })
+
+    // 创建app组件（仅次于vm的组件，vm管理app组件、app组件管理其他组件）
+    const app = Vue.extend({
+        template: `
+            <div>
+              <h1>局部注册：</h1>
+              <school></school>
+              <student></student>
+              <hr>
+            </div>
+        `,
+        components: {   // 嵌套组件
+            school,
+            student
+        }
+    })
+
+    // 注册组件（全局）
+    Vue.component('hello', hello)
+
+    // 创建vue实例
+    new Vue({
+        el: '#app',    // 提供一个在页面上已存在的 DOM 元素作为 Vue 实例的挂载目标
+        /*template: '<app></app>',*/    // 可将标签写在template中
+        components: {  // 注册组件（局部）
+            app
+        },
+    })
+
+    new Vue({
+        el: '#app2'
+    })
+</script>
+</body>
+</html>
