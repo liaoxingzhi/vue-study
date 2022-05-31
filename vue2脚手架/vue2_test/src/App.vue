@@ -3,7 +3,16 @@
     <!-- 被用来给元素或子组件注册引用信息（id的替代者） -->
     <img ref="img" alt="Vue logo" src="./assets/logo.png">
     <School ref="school"></School>
-    <Student></Student>
+    <br>
+
+    <!-- 绑定父组件中的数据到子组件（模板）中 使用v-bind（简写:）可动态绑定 -->
+    <Student name="张三" gender="男" :age="18"></Student>
+    <hr>
+    <Student name="李四" gender="男" :age="19"></Student>
+    <hr>
+    <Student name="王五" gender="女" :age="20"></Student>
+    <br>
+
     <button @click="consoleDom">点击打印dom</button>
   </div>
 </template>

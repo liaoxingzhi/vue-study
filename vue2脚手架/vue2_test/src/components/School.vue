@@ -1,7 +1,7 @@
 <template>
   <div id="school">
-    <h2>学校名称：{{name}}</h2>
-    <h2>学校地址：{{address}}</h2>
+    <h2>学校名称：{{ name }}</h2>
+    <h2>学校地址：{{ address }}</h2>
     <button @click="showName">点击提示校名</button>
   </div>
 </template>
@@ -25,7 +25,7 @@ export default {
 </script>
 
 <style scoped>
-  #school {
-    background-color: orange;
-  }
+#school {
+  background-color: orange;
+}
 </style>
